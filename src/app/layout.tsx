@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -16,7 +17,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>{children}
+        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+          <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+            <Link href="/">
+              <h2 className="text-2xl font-semibold">
+                NextDex
+              </h2>
+            </Link>
+          </div>
+        </main>
+      </body>
     </html>
   );
 }
