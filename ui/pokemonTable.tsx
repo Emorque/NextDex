@@ -11,19 +11,49 @@ interface PokemonTableProps {
 
 export function PokemonTable( {pokemonList} : PokemonTableProps) {
 
+    const [ searchText, setSearchText ] = useState("")
+
     console.log(pokemonList);
 
+    // filter the pokemon list according to the input text 
+    const searchFilter = (pokemonList : any) => {
+        return pokemonList.filter(
+            (pokemon : any) => pokemon.name.includes(searchText.toLowerCase())
+        )
+    }
+
+
+    //save the filtered list 
+    const filteredPokemonList = searchFilter(pokemonList);
+
     return(
-        <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-            {pokemonList.map((pokemon : any) => {
-                return(
-                    <PokemonCard name={pokemon.name}/>
-                )
-            })}
-            {/* <PokemonCard name="Torchic"/>
-            <PokemonCard name="Torchic"/>
-            <PokemonCard name="Torchic"/>
-            <PokemonCard name="Torchic"/> */}
-        </div>
+        <>
+            <div>
+                <h2>Want a Specfic Pokemon?</h2>
+                <div>
+                    <label htmlFor="pokemonName">Pokemon Name</label>
+                    <input
+                        type="text"
+                        value={searchText}
+                        id="pokemonName" //connects to label
+                        placeholder="Torchic"
+                        autoComplete="off"
+                        onChange={(e) => setSearchText(e.target.value)}
+                    />
+                </div>
+            </div>
+
+            <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
+                {filteredPokemonList.map((pokemon : any) => { //filtered pokemon list // initial filter of "" which includes ENTIRE list
+                    return(
+                        <PokemonCard name={pokemon.name}/>
+                    )
+                })}
+                {/* <PokemonCard name="Torchic"/>
+                <PokemonCard name="Torchic"/>
+                <PokemonCard name="Torchic"/>
+                <PokemonCard name="Torchic"/> */}
+            </div>
+        </>
     )
 }

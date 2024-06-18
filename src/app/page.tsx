@@ -3,7 +3,7 @@ import { PokemonTable } from "../../ui/pokemonTable";
 
 import { getPokemon } from "../../lib/pokeAPI";
 
-export default async function Home() {
+export default async function Home() { //async function b/c of await call 
 
   const unovaPokemon = await getPokemon();
 
