@@ -11,3 +11,13 @@ export async function getPokemonByName(name: string) {
     const data = response.json();
     return data;
 }
+
+export async function getEvolutionChain(name: string){
+    const speciesResponse = await fetch(POKEMON_API + "pokemon-species/" + name);
+    const speciesData  = await speciesResponse.json();
+
+    const evoChainResponse = await fetch(speciesData.evolution_chain.url);
+    const evoChainData = evoChainResponse.json();
+
+    return evoChainData;
+}

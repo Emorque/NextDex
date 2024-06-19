@@ -1,7 +1,7 @@
 import { Metadata } from 'next';  
 import  Image  from 'next/image';
 import { PokemonImage } from '../../../ui/pokemonImage';
-import { getPokemonByName } from '../../../lib/pokeAPI';
+import { getPokemonByName, getEvolutionChain } from '../../../lib/pokeAPI';
 
 export const metadata : Metadata = {
   title: 'Unique Pokemon Page',
@@ -12,9 +12,16 @@ export default async function PokemonPage( { params } : {params: { pokemonName: 
     const pokemonName = params.pokemonName;
 
     const pokemon = await getPokemonByName(pokemonName);
+    const pokemonID = pokemon.id;
 
-    console.log(pokemon)
+    const evoChain = await getEvolutionChain(pokemonName);
+    console.log(evoChain.id);
 
+    //console.log(pokemon);
+    //console.log(pokemonID); // This can be used for calls that only use the pokemon's ID and not name
+    
+    // console.log(typeof pokemonID); //id is a 'number' type
+    
     return(
         <>
             <h2>{pokemonName}</h2>
@@ -24,6 +31,7 @@ export default async function PokemonPage( { params } : {params: { pokemonName: 
                 pokemonName={pokemonName}
             />
             <h2>Weight : {pokemon.weight}</h2>
+            <h2>Height : {pokemon.height / 10} m</h2>
             
             <div>
                 {pokemon.stats.map( ( statsList : any) => {
@@ -33,6 +41,39 @@ export default async function PokemonPage( { params } : {params: { pokemonName: 
                     return (
                         <h2 key={statName}>{statName} : {statValue}</h2>
                     )
+                })}
+            </div>
+
+            <div>
+                {pokemon.abilities.map( ( abilitiesList : any ) => {
+                    const isHidden = abilitiesList.is_hidden;
+                    const abilityName = abilitiesList.ability.name;
+                    console.log(isHidden);
+                    
+                    if (isHidden) {
+                        return(
+                            <h2 className='red'
+                            key={abilityName}> {abilityName}  : is Hidden</h2>
+                        )
+                    }
+                    else {
+                        return (
+                            <h2 key={abilityName}>{abilityName}</h2>
+                        )
+                    }
+                })}
+            </div>
+
+            <div>
+                {pokemon.moves.map( ( movesList : any ) => {
+                    const moveName = movesList.move.name;
+                    // const moveLevel = movesList.version_group_details;
+                    // console.log(moveLevel);
+
+                    return (
+                        <h2 key={moveName}>{moveName}</h2>
+                    )
+
                 })}
             </div>
 
