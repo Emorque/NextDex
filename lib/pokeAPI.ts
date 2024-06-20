@@ -12,6 +12,17 @@ export async function getPokemonByName(name: string) {
     return data;
 }
 
+export async function getPokemonNext(id: number) {
+    const leftPokemon = id - 1;
+    const rightPokemon = id + 1;
+    const leftResponse = await fetch(POKEMON_API + "pokemon/" + leftPokemon);
+    const rightResponse = await fetch(POKEMON_API + "pokemon/" + rightPokemon);
+    const leftPokemonData = await leftResponse.json();
+    const rightPokemonData = await rightResponse.json();
+
+    return [leftPokemonData, rightPokemonData];
+}
+
 export async function getEvolutionChain(name: string){
     const speciesResponse = await fetch(POKEMON_API + "pokemon-species/" + name);
     const speciesData  = await speciesResponse.json();
