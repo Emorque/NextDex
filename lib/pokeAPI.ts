@@ -6,15 +6,17 @@ export async function getPokemon() {
     return data.results;
 }
 
-export async function getPokemonByName(name: string) {
-    const response = await fetch(POKEMON_API + "pokemon/" + name);
+export async function getPokemonByID(id: String) {
+    const response = await fetch(POKEMON_API + "pokemon/" + id);
     const data = response.json();
     return data;
 }
 
 export async function getPokemonNext(id: number) {
-    const leftPokemon = id - 1;
-    const rightPokemon = id + 1;
+    const leftPokemon: number = id == 1 ? 10277 : id-1;
+    const rightPokemon: number = id == 10277 ? 1 : id+1;
+    //const leftPokemon = id - 1;
+    //const rightPokemon = id + 1;
     const leftResponse = await fetch(POKEMON_API + "pokemon/" + leftPokemon);
     const rightResponse = await fetch(POKEMON_API + "pokemon/" + rightPokemon);
     const leftPokemonData = await leftResponse.json();

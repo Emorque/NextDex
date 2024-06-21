@@ -4,50 +4,37 @@ import  Image  from 'next/image';
 import Link from "next/link";
 
 import { PokemonImage } from '../../../ui/pokemonImage';
-import { getPokemonByName, getEvolutionChain, getPokemonNext } from '../../../lib/pokeAPI';
+import { getPokemonByID, getEvolutionChain, getPokemonNext } from '../../../lib/pokeAPI';
 
 export const metadata : Metadata = {
   title: 'Unique Pokemon Page',
 };
 
-export default async function PokemonPage( { params } : {params: { pokemonName: string } }) {
-    const pokemonName = params.pokemonName;
+export default async function PokemonPage( { params } : {params: { pokemonID : String} }) {
+    const id = params.pokemonID;
+    // console.log(id);
 
-    const pokemon = await getPokemonByName(pokemonName);
-    const pokemonID = pokemon.id;
+    const pokemon = await getPokemonByID(id);
+    // console.log(pokemon.name);
 
-    const evoChain = await getEvolutionChain(pokemonID);
-    console.log(evoChain.id);
+    // const evoChain = await getEvolutionChain(pokemonID);
+    // console.log(evoChain.id);
     
-    const chain = evoChain.chain.evolves_to;
+    // const chain = evoChain.chain.evolves_to;
 
-    const [pokemonLeft, pokemonRight] = await getPokemonNext(pokemonID);
+    const [pokemonLeft, pokemonRight] = await getPokemonNext(Number(id));
 
-    console.log(pokemonLeft);
+    // console.log(pokemonLeft);
     const pokemonLeftName = pokemonLeft.species.name;
     const pokemonRightName = pokemonRight.species.name;
-    // console.log(pokemonLeftName);
-    // console.log(pokemonRightName);
-
-    //console.log(chain.length); //returns number of evolutions from current mon
-
-    //console.log(canEvolve);
-
-
-    //console.log(pokemon);
-    //console.log(pokemonID); // This can be used for calls that only use the pokemon's ID and not name
-    
-    // console.log(typeof pokemonID); //id is a 'number' type
-
-
 
     
     return(
         <>
-            <h2>{pokemonName}</h2>
+            <h2>{pokemon.name}</h2>
 
             <Link
-                href={pokemonLeftName}
+                href={String(pokemonLeft.id)}
                 className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
                     key={pokemonLeftName} 
                 >
@@ -57,7 +44,7 @@ export default async function PokemonPage( { params } : {params: { pokemonName: 
             </Link>
 
             <Link
-                href={pokemonRightName}
+                href={String(pokemonRight.id)}
                 className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
                     key={pokemonRightName} 
                 >
@@ -68,8 +55,9 @@ export default async function PokemonPage( { params } : {params: { pokemonName: 
 
             <PokemonImage
                 image={pokemon.sprites.other['official-artwork'].front_default}
-                pokemonName={pokemonName}
+                pokemonName={pokemon.name}
             />
+
             <h2>Weight : {pokemon.weight}</h2>
             <h2>Height : {pokemon.height / 10} m</h2>
             
@@ -117,7 +105,7 @@ export default async function PokemonPage( { params } : {params: { pokemonName: 
                 })}
             </div>
 
-
+{/* 
             <div>
                 <h2>{evoChain.chain.species.name}</h2>
                 {evoChain.chain.evolves_to.map( ( evoChainList : any ) => {
@@ -130,7 +118,7 @@ export default async function PokemonPage( { params } : {params: { pokemonName: 
                     )
 
                 })}
-            </div>
+            </div> */}
 
             {/* <Image
                 src={pokemon.sprites.other['official-artwork'].front_default}
