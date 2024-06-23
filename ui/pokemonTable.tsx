@@ -43,7 +43,7 @@ export function PokemonTable( {pokemonList} : PokemonTableProps) {
                 </div>
             </div>
 
-            <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
+            <div className="">
                 {filteredPokemonList.map((pokemon : any) => { //filtered pokemon list // initial filter of "" which includes ENTIRE list
                     return(
                         <PokemonCard key = {pokemon.name} name={pokemon.name} url={pokemon.url}/>
