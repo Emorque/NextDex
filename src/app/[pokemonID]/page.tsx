@@ -135,6 +135,8 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                 })}
             </div>
 
+            <br/>
+
             {/*Gathers the Pokemon's abilities*/}
             <div>
                 {pokemon.abilities.map( ( abilitiesList : any ) => {
@@ -157,6 +159,8 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                 })}
             </div>
 
+            <br/>
+
             {/*Gathers the Pokemon's ENTIRE move list*/}
             <div>
                 {pokemon.moves.map( ( movesList : any ) => {
@@ -170,6 +174,8 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
 
                 })}
             </div>
+
+            <br/>
 
 
             {/*Gathers the Pokemon's Evolution Chain*/}
@@ -202,6 +208,57 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                 })}
             </div>
 
+            {/*Gathers the Pokemon's Multiple Pokedex Entries*/}
+
+            <div>
+                <h2>Regional Pokedex Numbers:</h2>
+                {speciesInfo.pokedex_numbers.map( ( regionalNoList : any ) => {
+                    const entryNumber = regionalNoList.entry_number;
+                    const region = regionalNoList.pokedex.name; //If I want to make the names formatted better, try a switch case or create a map before the initial return 
+                    // const moveLevel = movesList.version_group_details;
+                    // console.log(moveLevel);
+                    return (
+                        <h2 key={region}>{region} : {entryNumber}</h2>
+                    )
+
+                })}
+            </div>
+
+            <br/>
+
+            {/*Gathers the Pokemon's Name in All Languages*/}
+
+            <div>
+                <h2>Name in Other Languages:</h2>
+                {speciesInfo.names.map( ( nameList : any ) => {
+                    const language = nameList.language.name;
+                    const nameInLang = nameList.name; //If I want to make the names formatted better, try a switch case or create a map before the initial return 
+                    // const moveLevel = movesList.version_group_details;
+                    // console.log(moveLevel);
+                    return (
+                        <h2 key={language}>{language} : {nameInLang}</h2>
+                    )
+
+                })}
+            </div>
+
+            <br/>
+
+            {/*Gathers every Pokedex entry for this Pokemon's*/}
+
+            <div>
+                <h2>All Pokedex Entries:</h2>
+                {speciesInfo.flavor_text_entries.map( ( pokedexEntriesList : any ) => {
+                    const entry = pokedexEntriesList.flavor_text;
+                    const langauge = pokedexEntriesList.language.name;
+                    const game = pokedexEntriesList.version.name; //If I want to make the names formatted better, try a switch case or create a map before the initial return 
+                    if (langauge == "en"){
+                        return (
+                            <h2 key={game}>{game} : {entry}</h2>
+                        )
+                    }
+                })}
+            </div>
 
 
             {/* <div>
