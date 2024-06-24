@@ -31,7 +31,7 @@ export async function getEvolutionChain(name: string){
     const speciesData  = await speciesResponse.json();
 
     const evoChainResponse = await fetch(speciesData.evolution_chain.url);
-    const evoChainData = evoChainResponse.json();
+    const evoChainData = await evoChainResponse.json();
 
-    return evoChainData;
+    return [speciesData, evoChainData];
 }

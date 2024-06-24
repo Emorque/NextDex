@@ -6,6 +6,10 @@ import Link from "next/link";
 import { PokemonImage } from '../../../ui/pokemonImage';
 import { getPokemonByID, getEvolutionChain, getPokemonNext } from '../../../lib/pokeAPI';
 
+import { Progress } from '@/components/ui/progress';
+import { stat } from 'fs/promises';
+import { spec } from 'node:test/reporters';
+
 export const metadata : Metadata = {
   title: 'Unique Pokemon Page',
 };
@@ -19,8 +23,8 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
     //console.log(typeof(Number(id)));
     // console.log(pokemon.name);
 
-     const evoChain = await getEvolutionChain(Number(id));
-    // console.log(evoChain.id);
+    const [speciesInfo, evoChain] = await getEvolutionChain(Number(id));
+    console.log(evoChain.id);
     
     // const chain = evoChain.chain.evolves_to;
 
@@ -43,12 +47,13 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
     //     )
 
     // })}
-
     
     return(
         <>
             <h2>{pokemon.name}</h2>
             <h2>{evoChain.id}</h2>
+            <h2>National Dex Number: {id}</h2>
+            <h2>Species Name: {speciesInfo.genera[7].genus}</h2>
 
             {/*Embedded Link that directs to the prev Pokemon*/}
             <Link
@@ -99,9 +104,33 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                 {pokemon.stats.map( ( statsList : any) => {
                     const statName = statsList.stat.name;
                     const statValue = statsList.base_stat;
+                    console.log(statName);
+                    console.log(statValue);
 
                     return (
-                        <h2 key={statName}>{statName} : {statValue}</h2>
+                        <div key={statName}>
+                            <h2 key={statName + "Bar"}>{statName}</h2>
+                            {(() => {
+                                switch (statName) { // This switch case checks the current stat and divides it to the highest possible number
+                                    case 'hp':
+                                        return <Progress value={(statValue / 255) * 100 }/> // Highest base HP is Blissey
+                                    case 'attack':
+                                        return <Progress value={(statValue / 180) * 100 }/> // Highest base Attack is Deoxys (Attack Forme)
+                                    case 'defense':
+                                        return <Progress value={(statValue / 200) * 100 }/> // Highest base Defense is Regirock 
+                                    case 'special-attack':
+                                        return <Progress value={(statValue / 180) * 100 }/> // Highest base Special-Attack is Deoxys (Attack Forme)
+                                    case 'special-defense':
+                                        return <Progress value={(statValue / 200) * 100 }/> // Highest base Special-Defense is Regice 
+                                    case 'speed':
+                                        return <Progress value={(statValue / 200) * 100 }/> // Highest base Speed is Regieleki
+                                    default:
+                                        return null
+                                }
+                            })()}
+                            {/* <Progress value = {statValue} /> */}
+                        </div>
+                        
                     )
                 })}
             </div>

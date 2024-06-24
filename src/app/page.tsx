@@ -8,7 +8,7 @@ export default async function Home() { //async function b/c of await call
   const allPokemon = await getPokemon();
 
   return (
-    <main>
+    <main className="grid">
       <PokemonTable pokemonList={allPokemon}/>
     </main>
   );
