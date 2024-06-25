@@ -16,17 +16,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // <html lang="en">
+    //   <body className={inter.className}>{children}
+    //     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    //       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+    //         <Link href="/">
+    //           <h2 className="text-2xl font-semibold">
+    //             NextDex
+    //           </h2>
+    //         </Link>
+    //       </div>
+    //     </main>
+    //   </body>
+    // </html>
     <html lang="en">
-      <body className={inter.className}>{children}
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-          <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-            <Link href="/">
-              <h2 className="text-2xl font-semibold">
-                NextDex
-              </h2>
-            </Link>
-          </div>
-        </main>
+      <body className={inter.className}>
+        <nav>
+          <Link href="/">
+            <h2 className="text-2xl font-semibold"> NextDex </h2>
+          </Link>        
+        </nav>
+        {children}
       </body>
     </html>
   );

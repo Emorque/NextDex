@@ -53,7 +53,21 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
             <h2>{pokemon.name}</h2>
             <h2>{evoChain.id}</h2>
             <h2>National Dex Number: {id}</h2>
-            <h2>Species Name: {speciesInfo.genera[7].genus}</h2>
+            {/* <h2>Species Name: {speciesInfo.genera[7].genus}</h2> */} 
+
+    
+            {/*Gathers the Pokemon's English Species Name*/}
+
+            <div>
+                {speciesInfo.genera.map( (speciesList : any) => {
+                    const specLanguage: string = speciesList.language.name;
+                    if (specLanguage == "en"){
+                        return(
+                            <h2 key={specLanguage}>{speciesList.genus}</h2>
+                        )
+                    }
+                })}
+            </div>
 
             {/*Embedded Link that directs to the prev Pokemon*/}
             <Link
@@ -249,29 +263,24 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
             <div>
                 <h2>All Pokedex Entries:</h2>
                 {speciesInfo.flavor_text_entries.map( ( pokedexEntriesList : any ) => {
-                    const entry = pokedexEntriesList.flavor_text;
+                    const entry: string = pokedexEntriesList.flavor_text;
+                    // entry orignially had a strange character that was taken from when scrapped from the orignial games
+                    // the solution below removes that strange character and was found here: https://github.com/veekun/pokedex/issues/218
+                    const entryFixed = entry.replace('\f',       '\n') 
+                                            .replace('\u00ad\n', '') 
+                                            .replace('\u00ad',   '') 
+                                            .replace(' -\n',     ' - ') 
+                                            .replace('-\n',      '-') 
+                                            .replace('\n',       ' ')
                     const langauge = pokedexEntriesList.language.name;
                     const game = pokedexEntriesList.version.name; //If I want to make the names formatted better, try a switch case or create a map before the initial return 
                     if (langauge == "en"){
                         return (
-                            <h2 key={game}>{game} : {entry}</h2>
+                            <h2 key={game}>{game} : {entryFixed}</h2>
                         )
                     }
                 })}
             </div>
-
-
-            {/* <div>
-                <h2>{evoChain.chain.species.name}</h2>
-                {evoChain.chain.evolves_to.map( ( evoChainList : any ) => {
-                    const evolution = evoChainList.species.name;
-
-                    return (
-                        <h2 key={evolution}>{evolution}</h2>
-                    )
-
-                })}
-            </div> */}
 
             {/* <Image
                 src={pokemon.sprites.other['official-artwork'].front_default}
