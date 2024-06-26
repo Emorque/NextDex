@@ -49,10 +49,6 @@ export function PokemonTable( {pokemonList} : PokemonTableProps) {
                         <PokemonCard key = {pokemon.name} name={pokemon.name} url={pokemon.url}/>
                     )
                 })}
-                {/* <PokemonCard name="Torchic"/>
-                <PokemonCard name="Torchic"/>
-                <PokemonCard name="Torchic"/>
-                <PokemonCard name="Torchic"/> */}
             </div>
         </>
     )

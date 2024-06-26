@@ -14,14 +14,31 @@ export const metadata : Metadata = {
   title: 'Unique Pokemon Page',
 };
 
+
+// Created a 'capitalizeName' function to have the first character be Upper-Case 
+// Done as this was done in multiple places
+function capitalizeName(name : string){
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+// Created to target the moveList to convert names like "Take-Down" into "Take Down"
+function fixMoveName(name : string){
+    return name.split('-').map(capitalizeName).join(' ');
+}
+
+// Created to target the PokemonNames that have a dash
+// ex: Iron-Boulder
+// It is because there are names and moves that start with 'Iron' that require different outputs 
+function fixPokemonName(name : string) : string {
+    return name.split('-').map(capitalizeName).join('-');
+}
+
+
 export default async function PokemonPage( { params } : {params: { pokemonID : String} }) {
     const id = params.pokemonID;
-    // console.log(id);
+    console.log(typeof(id));
 
     const pokemon = await getPokemonByID(id);
-    //console.log(typeof(id));
-    //console.log(typeof(Number(id)));
-    // console.log(pokemon.name);
 
     const [speciesInfo, evoChain] = await getEvolutionChain(Number(id));
     console.log(evoChain.id);
@@ -34,20 +51,6 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
     const pokemonLeftName = pokemonLeft.species.name;
     const pokemonRightName = pokemonRight.species.name;
 
-    // const firstStage = evoChain.chain.species.name;
-    // console.log(firstStage)
-
-    // const secondStage = "resr"
-    //             {evoChain.chain.evolves_to.map( ( evoChainList : any ) => {
-    //     const evolution = evoChainList.species.name;
-    //     // const moveLevel = movesList.version_group_details;
-    //     // console.log(moveLevel);
-    //     return (
-    //         <h2 key={evolution}>{evolution}</h2>
-    //     )
-
-    // })}
-    
     return(
         <>
             <h2>{pokemon.name}</h2>
@@ -76,7 +79,8 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     key={pokemonLeftName} 
                 >
                 <h2 className="mb-3 text-2xl font-semibold">
-                    {pokemonLeftName.charAt(0).toUpperCase() + pokemonLeftName.slice(1)}
+                    {/* {pokemonLeftName.charAt(0).toUpperCase() + pokemonLeftName.slice(1)} */}
+                    {fixPokemonName(pokemonLeftName)}
                 </h2>
             </Link>
 
@@ -87,7 +91,8 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     key={pokemonRightName} 
                 >
                 <h2 className="mb-3 text-2xl font-semibold">
-                    {pokemonRightName.charAt(0).toUpperCase() + pokemonRightName.slice(1)}
+                    {/* {pokemonRightName.charAt(0).toUpperCase() + pokemonRightName.slice(1)} */}
+                    {fixPokemonName(pokemonRightName)}
                 </h2>
             </Link>
 
@@ -105,7 +110,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     const type = typeList.type.name;
 
                     return(
-                        <h2 key={type}>{type}</h2>
+                        <h2 key={type}>{capitalizeName(type)}</h2>
                     )
                 })}
             </div>
@@ -118,12 +123,10 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                 {pokemon.stats.map( ( statsList : any) => {
                     const statName = statsList.stat.name;
                     const statValue = statsList.base_stat;
-                    console.log(statName);
-                    console.log(statValue);
 
                     return (
                         <div key={statName}>
-                            <h2 key={statName + "Bar"}>{statName}</h2>
+                            <h2 key={statName + "Bar"}>{capitalizeName(statName)} : {statValue}</h2>
                             {(() => {
                                 switch (statName) { // This switch case checks the current stat and divides it to the highest possible number
                                     case 'hp':
@@ -142,7 +145,6 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                                         return null
                                 }
                             })()}
-                            {/* <Progress value = {statValue} /> */}
                         </div>
                         
                     )
@@ -181,9 +183,10 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     const moveName = movesList.move.name;
                     // const moveLevel = movesList.version_group_details;
                     // console.log(moveLevel);
+                    //fixDashName(moveName);
 
                     return (
-                        <h2 key={moveName}>{moveName}</h2>
+                        <h2 key={moveName}>{fixMoveName(moveName)}</h2>
                     )
 
                 })}
@@ -232,7 +235,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     // const moveLevel = movesList.version_group_details;
                     // console.log(moveLevel);
                     return (
-                        <h2 key={region}>{region} : {entryNumber}</h2>
+                        <h2 key={region}>{capitalizeName(region)} : {entryNumber}</h2>
                     )
 
                 })}
@@ -276,18 +279,11 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     const game = pokedexEntriesList.version.name; //If I want to make the names formatted better, try a switch case or create a map before the initial return 
                     if (langauge == "en"){
                         return (
-                            <h2 key={game}>{game} : {entryFixed}</h2>
+                            <h2 key={game}>{capitalizeName(game)} : {entryFixed}</h2>
                         )
                     }
                 })}
             </div>
-
-            {/* <Image
-                src={pokemon.sprites.other['official-artwork'].front_default}
-                height={200}
-                width={200}
-                alt={"Image of " + pokemonName}
-            /> */}
         </>
         
     )

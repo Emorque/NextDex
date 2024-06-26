@@ -26,8 +26,8 @@ export async function getPokemonNext(id: number) {
     return [leftPokemonData, rightPokemonData];
 }
 
-export async function getEvolutionChain(name: string){
-    const speciesResponse = await fetch(POKEMON_API + "pokemon-species/" + name);
+export async function getEvolutionChain(id: number){
+    const speciesResponse = await fetch(POKEMON_API + "pokemon-species/" + id);
     const speciesData  = await speciesResponse.json();
 
     const evoChainResponse = await fetch(speciesData.evolution_chain.url);

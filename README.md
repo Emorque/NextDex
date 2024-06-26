@@ -14,7 +14,7 @@ A PokeDex App made with NextJS
 - Clicking on the Pokemon Card will send to a new Page with info only about that Pokemon ☑️
   - On that Page, there will be:
     - Sprite ☑️
-      - Toggle for multiple Sprites
+      - Toggle for multiple Sprites (Maybe implement a Carousel, Pagination, or Scroll Area)
     - Stats ☑️
     - Abilities ☑️
     - National Dex Number ☑️
