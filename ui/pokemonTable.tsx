@@ -13,7 +13,7 @@ export function PokemonTable( {pokemonList} : PokemonTableProps) {
 
     const [ searchText, setSearchText ] = useState("")
 
-    console.log(pokemonList);
+    // console.log(pokemonList);
 
     // filter the pokemon list according to the input text 
     const searchFilter = (pokemonList : any) => {

@@ -7,8 +7,20 @@ import { PokemonImage } from '../../../ui/pokemonImage';
 import { getPokemonByID, getEvolutionChain, getPokemonNext } from '../../../lib/pokeAPI';
 
 import { Progress } from '@/components/ui/progress';
-import { stat } from 'fs/promises';
-import { spec } from 'node:test/reporters';
+
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
+  
+
+// import { stat } from 'fs/promises';
+// import { spec } from 'node:test/reporters';
 
 export const metadata : Metadata = {
   title: 'Unique Pokemon Page',
@@ -31,6 +43,21 @@ function fixMoveName(name : string){
 // It is because there are names and moves that start with 'Iron' that require different outputs 
 function fixPokemonName(name : string) : string {
     return name.split('-').map(capitalizeName).join('-');
+}
+
+function getProgressColor(value: number) : string {
+    if (value > 70) return "bg-green-500"
+    else if (value > 20) return "bg-yellow-500"
+    else return "bg-red-500"
+}
+
+function removeArrow(str : string) : string{
+    return str.replace('\f',       '\n') 
+    .replace('\u00ad\n', '') 
+    .replace('\u00ad',   '') 
+    .replace(' -\n',     ' - ') 
+    .replace('-\n',      '-') 
+    .replace('\n',       ' ')
 }
 
 
@@ -130,23 +157,29 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                             {(() => {
                                 switch (statName) { // This switch case checks the current stat and divides it to the highest possible number
                                     case 'hp':
-                                        return <Progress value={(statValue / 255) * 100 }/> // Highest base HP is Blissey
+                                        var statPercent = (statValue/255) * 100; // Highest base HP is Blissey
+                                        // return <Progress progressColor='bg-blue-500' value={(statValue / 255) * 100 }/> 
+                                        return <Progress progressColor={getProgressColor(statPercent)} value={statPercent}/>
                                     case 'attack':
-                                        return <Progress value={(statValue / 180) * 100 }/> // Highest base Attack is Deoxys (Attack Forme)
+                                        var statPercent = (statValue/180) * 100; // Highest base Attack is Deoxys (Attack Forme)
+                                        return <Progress progressColor={getProgressColor(statPercent)} value={statPercent}/> 
                                     case 'defense':
-                                        return <Progress value={(statValue / 200) * 100 }/> // Highest base Defense is Regirock 
+                                        var statPercent = (statValue/180) * 100; // Highest base Defense is Regirock 
+                                        return <Progress progressColor={getProgressColor(statPercent)} value={statPercent}/> 
                                     case 'special-attack':
-                                        return <Progress value={(statValue / 180) * 100 }/> // Highest base Special-Attack is Deoxys (Attack Forme)
+                                        var statPercent = (statValue/180) * 100; // Highest base Special-Attack is Deoxys (Attack Forme)
+                                        return <Progress progressColor={getProgressColor(statPercent)} value={statPercent}/> 
                                     case 'special-defense':
-                                        return <Progress value={(statValue / 200) * 100 }/> // Highest base Special-Defense is Regice 
+                                        var statPercent = (statValue/200) * 100; // Highest base Special-Defense is Regice 
+                                        return <Progress progressColor={getProgressColor(statPercent)} value={statPercent}/> 
                                     case 'speed':
-                                        return <Progress value={(statValue / 200) * 100 }/> // Highest base Speed is Regieleki
+                                        var statPercent = (statValue/200) * 100; // Highest base Speed is Regieleki
+                                        return <Progress progressColor={getProgressColor(statPercent)} value={statPercent}/> 
                                     default:
                                         return null
                                 }
                             })()}
                         </div>
-                        
                     )
                 })}
             </div>
@@ -178,7 +211,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
             <br/>
 
             {/*Gathers the Pokemon's ENTIRE move list*/}
-            <div>
+            {/* <div className=''>
                 {pokemon.moves.map( ( movesList : any ) => {
                     const moveName = movesList.move.name;
                     // const moveLevel = movesList.version_group_details;
@@ -190,7 +223,22 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     )
 
                 })}
-            </div>
+            </div> */}
+
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Move</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {pokemon.moves.map( ( movesList : any ) => (
+                        <TableRow key={movesList.move.name}>
+                            <TableCell>{fixMoveName(movesList.move.name)}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
 
             <br/>
 
@@ -207,7 +255,9 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     console.log(thirdStage);
                     return (
                         <div key={secondStage}>
+                            <h2>Evolves: to</h2>
                             <h2>{secondStage}</h2>
+                            <h2>Evolves to:</h2>
                             {thirdStage.map((thirdStageMon : any) => {
                                 return(
                                 <h2 key={thirdStageMon}>{thirdStageMon}</h2>
@@ -227,7 +277,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
 
             {/*Gathers the Pokemon's Multiple Pokedex Entries*/}
 
-            <div>
+            {/* <div>
                 <h2>Regional Pokedex Numbers:</h2>
                 {speciesInfo.pokedex_numbers.map( ( regionalNoList : any ) => {
                     const entryNumber = regionalNoList.entry_number;
@@ -239,13 +289,34 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     )
 
                 })}
-            </div>
+            </div> */}
+
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Region</TableHead>
+                        <TableHead>Pokedex Number</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {speciesInfo.pokedex_numbers.map( ( regionalNoList : any ) => (
+                        <TableRow key={regionalNoList.pokedex.name}>
+                            <TableCell>
+                                {capitalizeName(regionalNoList.pokedex.name)}
+                            </TableCell>
+                            <TableCell>
+                                {regionalNoList.entry_number}
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
 
             <br/>
 
             {/*Gathers the Pokemon's Name in All Languages*/}
 
-            <div>
+            {/* <div>
                 <h2>Name in Other Languages:</h2>
                 {speciesInfo.names.map( ( nameList : any ) => {
                     const language = nameList.language.name;
@@ -257,24 +328,52 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     )
 
                 })}
-            </div>
+            </div> */}
+
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Language</TableHead>
+                        <TableHead>Name</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {speciesInfo.names.map( ( nameList : any ) => (
+                        <TableRow key={nameList.language.name}>
+                            <TableCell>
+                                {nameList.language.name}
+                            </TableCell>
+                            <TableCell>
+                                {nameList.name}
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+
+
+                {/* {speciesInfo.names.map( ( nameList : any ) => {
+                    const language = nameList.language.name;
+                    const nameInLang = nameList.name; //If I want to make the names formatted better, try a switch case or create a map before the initial return 
+                    // const moveLevel = movesList.version_group_details;
+                    // console.log(moveLevel);
+                    return (
+                        <h2 key={language}>{language} : {nameInLang}</h2>
+                    )
+
+                })} */}
+            </Table>
+
 
             <br/>
 
             {/*Gathers every Pokedex entry for this Pokemon's*/}
 
-            <div>
+            {/* <div>
                 <h2>All Pokedex Entries:</h2>
                 {speciesInfo.flavor_text_entries.map( ( pokedexEntriesList : any ) => {
                     const entry: string = pokedexEntriesList.flavor_text;
                     // entry orignially had a strange character that was taken from when scrapped from the orignial games
                     // the solution below removes that strange character and was found here: https://github.com/veekun/pokedex/issues/218
-                    const entryFixed = entry.replace('\f',       '\n') 
-                                            .replace('\u00ad\n', '') 
-                                            .replace('\u00ad',   '') 
-                                            .replace(' -\n',     ' - ') 
-                                            .replace('-\n',      '-') 
-                                            .replace('\n',       ' ')
                     const langauge = pokedexEntriesList.language.name;
                     const game = pokedexEntriesList.version.name; //If I want to make the names formatted better, try a switch case or create a map before the initial return 
                     if (langauge == "en"){
@@ -282,8 +381,34 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                             <h2 key={game}>{capitalizeName(game)} : {entryFixed}</h2>
                         )
                     }
+
+
                 })}
-            </div>
+            </div> */}
+
+
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Game</TableHead>
+                        <TableHead>Pokedex Entry</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {speciesInfo.flavor_text_entries.map( ( pokedexEntriesList : any ) => (
+                        pokedexEntriesList.language.name == "en" && (
+                            <TableRow key={pokedexEntriesList.version.name}>
+                                <TableCell>
+                                    {capitalizeName(pokedexEntriesList.version.name)}
+                                </TableCell>
+                                <TableCell>
+                                    {removeArrow(pokedexEntriesList.flavor_text)}
+                                </TableCell>
+                            </TableRow> 
+                        )
+                    ))}
+                </TableBody>
+            </Table>
         </>
         
     )
