@@ -2,7 +2,7 @@
 
 import { useState } from "react"; //Only because this is in "use client"
 import Image from "next/image";
-import { PokemonCard } from "./pokemonCard";
+import { PokemonCard }  from "./pokemonCard";
 
 interface PokemonTableProps {
     pokemonList: any; //consider changing to Pokemon[] as a list of type Pokemon

@@ -1,8 +1,16 @@
 import Link from "next/link";
+// import pokemon from "@/lib/pokemonTypes.json";
+import * as typeColors from "../lib/pokemonTypes.json";
+// import { promises as fs } from 'fs'; 
 
 interface PokemonInfo {
     name: string
     url: string
+}
+
+// Needed to query pokemonTypes.json
+interface PokemonTypes {
+  [id: string]: string;
 }
 
 // Created a 'capitalizeName' function to have the first character be Upper-Case 
@@ -17,6 +25,27 @@ function capitalizeName(name : string){
 // List of names whose forms are attached to their name
 const namesToFix : string[] = ["deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", "mimikyu", "toxitricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus"];
 
+const primaryColor : {[id: string]: string} = {
+    "normal": "#9fa19f",    
+    "fire": "#e62829",      
+    "water": "#2980ef",     
+    "electric": "#fac000",  
+    "grass": "#3fa129",     
+    "ice": "#3dcef3",       
+    "fighting": "#ff8000",  
+    "poison": "#9141cb",    
+    "ground": "#915121",    
+    "flying": "#81b9ef",    
+    "psychic": "#81b9ef",   
+    "bug": "#91a119",       
+    "rock": "#afa981",      
+    "ghost": "#704170",     
+    "dragon": "#5060e1",    
+    "dark": "#705848",      
+    "steel": "#60a1b8",     
+    "fairy": "#ef70ef"      
+};
+
 function fixPokemonName(name : string) : string {
   // There are pokemon who are forms attached here to their name in the json, so they will be removed here
   // ex: Wishiwashi-Solo -> Wishiwashi
@@ -27,18 +56,45 @@ function fixPokemonName(name : string) : string {
   return name.split('-').map(capitalizeName).join('-');
 }
 
+function getPokemonType(pokemonName: string): string | undefined {
+  // Ensure the pokemonName exists in the pokemon dictionary, convert to lowercase first
+  const type = typeColors.pokemon[pokemonName.toLowerCase() as keyof typeof typeColors.pokemon];
+  return type;
+}
+
 export function PokemonCard( {name, url } :PokemonInfo) {
-    // obtaining the unique id for each Pokemon from the its url. 
+// export default async function pokemonCard( {name, url} : PokemonInfo) {
+// obtaining the unique id for each Pokemon from the its url. 
     const idParts = url.split('/');
     const pokemonID = idParts[idParts.length -2]; 
+  
+    const pokemonName : string = fixPokemonName(name);
+    // const file = await fs.readFile(process.cwd() + '/app/data.json', 'utf8');
+    // const file = await fs.readFile(process.cwd() + '../lib/pokemonTypes.json', 'utf8');
+    // const typesFile = JSON.parse(file);
+
+    // console.log(pokemonName.toLowerCase());
+
+    // console.log(primaryColor[typeColors.pokemon[pokemonName.toLowerCase()]]);
+    const pokemonType = getPokemonType(pokemonName);
+    // console.log(pokemonName, pokemonType, typeof(pokemonType));
+
+    // if (pokemonType === undefined) {
+    //   console.log(pokemonName);
+    // }
+
+    const backgroundColor : string = pokemonType ? primaryColor[pokemonType] : "#000";
+    // console.log(backgroundColor);
+
+    // console.log(primaryColor[typeColors.pokemon[pokemonName.toLowerCase()]])
 
     return(
         <Link href={String(pokemonID)}
           // className="group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          className="group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className={`bg-${[pokemonType]} group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30`}
           key={name + "Card"}
         >
-          <h2 className={`text-2xl font-semibold`}> {fixPokemonName(name)} </h2>
+          <h2 className={`text-2xl font-semibold`}> {pokemonName} </h2>
         </Link>
     )
 }
