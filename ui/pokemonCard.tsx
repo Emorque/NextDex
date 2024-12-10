@@ -39,7 +39,7 @@ const primaryColor : {[id: string]: string} = {
     "poison": "#9141cb",    
     "ground": "#915121",    
     "flying": "#81b9ef",    
-    "psychic": "#81b9ef",   
+    "psychic": "#ef4179",   
     "bug": "#91a119",       
     "rock": "#afa981",      
     "ghost": "#704170",     
@@ -95,7 +95,7 @@ export function PokemonCard( {name, url } :PokemonInfo) {
           <Image
             src={`/${pokemonType}_icon.png`}
             alt="Logo for Type"
-            className={"absolute top-0 z-20 -right-14 transform transition duration-200 group-hover:-translate-x-14"}
+            className={"absolute top-0 z-20 -right-10 transform transition duration-200 group-hover:-translate-x-10 group-hover:scale-100 scale-0 mt-1"}
             // style={{right: -5}}
             width={52}
             height={52}
