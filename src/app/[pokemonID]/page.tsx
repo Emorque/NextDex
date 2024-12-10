@@ -60,7 +60,20 @@ function removeArrow(str : string) : string{
     .replace('\n',       ' ')
 }
 
-
+// Dictionary to get the full Language from its code
+const language : {[id:string] : string} = {
+    "ja-Hrkt" : "Japanese - Hiragana + Katakana",
+    "roomaji" : "Japanese - Romaji",
+    "ko": "Korean",
+    "zh-Hant" : "Chinese - Traditional",
+    "fr": "French",
+    "de": "German",
+    "es": "Spanish",
+    "it": "Italian",
+    "en": "English",
+    "ja": "Japanese",
+    "zh-Hans": "Chinese - Simplified"
+}
 
 export default async function PokemonPage( { params } : {params: { pokemonID : String} }) {
     const id = params.pokemonID;
@@ -122,7 +135,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
     
             {/*Gathers the Pokemon's English Species Name*/}
 
-            <div className='flex justify-between w-1/2 items-center'>
+            <div className='flex w-full md:w-full items-center flex-col md:flex-row md:justify-around lg:w-1/2 lg:md:justify-between gap-10'>
                 {/* Basic Information */}
                 <div>
                     <h2>{pokemonName}</h2>
@@ -158,12 +171,16 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
             </div>
 
 
-            <div className='w-1/2 flex justify-between items-center'>
+            <br/>
+
+            <div className='flex w-full md:w-full items-center flex-col md:flex-row md:justify-around lg:w-1/2 lg:md:justify-between gap-10'>
                 {/* Measurements and Abilities */}
                 <div>
                     {/* Measurements */}
                     <h2>Weight : {pokemon.weight / 10} kg</h2>
                     <h2>Height : {pokemon.height / 10} m</h2>
+
+                    <br/>
 
                     {/*Gathers the Pokemon's abilities*/}
                     <div>
@@ -189,7 +206,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                 </div>
                     
 
-                <div className='mr-4'>
+                <div className='md:mr-2 lg:mr-4'>
                 {/*Gathers the Pokemon's stats*/}
                     {pokemon.stats.map( ( statsList : any) => {
                         const statName = statsList.stat.name;
@@ -197,7 +214,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
 
                         return (
                             <div key={statName}>
-                                <h2 key={statName + "Bar"}>{capitalizeName(statName)} : {statValue}</h2>
+                                <h2 key={statName + "Bar"}>{fixPokemonName(statName)} : {statValue}</h2>
                                 {(() => {
                                     switch (statName) { // This switch case checks the current stat and divides it to the highest possible number
                                         case 'hp':
@@ -223,6 +240,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                                             return null
                                     }
                                 })()}
+                                <div className='h-2'></div>
                             </div>
                         )
                     })}
@@ -263,9 +281,9 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                         </TableHeader>
                         <TableBody>
                             {speciesInfo.pokedex_numbers.map( ( regionalNoList : any ) => (
-                                <TableRow key={regionalNoList.pokedex.name}>
+                                <TableRow key={fixPokemonName(regionalNoList.pokedex.name)}>
                                     <TableCell>
-                                        {capitalizeName(regionalNoList.pokedex.name)}
+                                        {fixPokemonName(regionalNoList.pokedex.name)}
                                     </TableCell>
                                     <TableCell>
                                         {regionalNoList.entry_number}
@@ -284,9 +302,9 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                         </TableHeader>
                         <TableBody>
                             {speciesInfo.names.map( ( nameList : any ) => (
-                                <TableRow key={nameList.language.name}>
+                                <TableRow key={language[nameList.language.name]}>
                                     <TableCell>
-                                        {nameList.language.name}
+                                        {language[nameList.language.name]}
                                     </TableCell>
                                     <TableCell>
                                         {nameList.name}
@@ -306,9 +324,9 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                         <TableBody>
                             {speciesInfo.flavor_text_entries.map( ( pokedexEntriesList : any ) => (
                                 pokedexEntriesList.language.name == "en" && (
-                                    <TableRow key={pokedexEntriesList.version.name}>
+                                    <TableRow key={fixPokemonName(pokedexEntriesList.version.name)}>
                                         <TableCell>
-                                            {capitalizeName(pokedexEntriesList.version.name)}
+                                            {fixPokemonName(pokedexEntriesList.version.name)}
                                         </TableCell>
                                         <TableCell>
                                             {removeArrow(pokedexEntriesList.flavor_text)}

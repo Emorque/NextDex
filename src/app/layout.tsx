@@ -35,9 +35,9 @@ export default function RootLayout({
         {/* <ThemeProvider atribute="class" defaultTheme="dark">
 
         </ThemeProvider> */}
-        <main className="flex min-h-screen flex-col items-center p-12  bg-black">
-          <div className="w-full max-w-5xl items-center justify-between text-sm lg:flex">
-            <nav>
+        <main className="flex min-h-screen flex-col items-center p-12  bg-black w-full">
+          <div className="w-full items-center text-sm lg:flex">
+            <nav className="ml-3">
               <Link href="/">
                 <div className="flex flex-row items-center">
                   <Image
