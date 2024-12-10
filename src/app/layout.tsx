@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     // <html lang="en">
     //   <body className={inter.className}>{children}
@@ -31,12 +31,19 @@ export default function RootLayout({
     // </html>
     <html lang="en">
       <body className={inter.className}>
-        <nav>
-          <Link href="/">
-            <h2 className="text-2xl font-semibold"> NextDex </h2>
-          </Link>        
-        </nav>
-        {children}
+        {/* <ThemeProvider atribute="class" defaultTheme="dark">
+
+        </ThemeProvider> */}
+        <main className="flex min-h-screen flex-col items-center p-12">
+          <div className="w-full max-w-5xl items-center justify-between text-sm lg:flex">
+            <nav>
+              <Link href="/">
+                <h2 className="text-2xl font-semibold"> NextDex </h2>
+              </Link>        
+            </nav>
+          </div>
+          {children}
+        </main>
       </body>
     </html>
   );
