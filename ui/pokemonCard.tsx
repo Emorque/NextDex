@@ -1,6 +1,6 @@
 import Link from "next/link";
 // import pokemon from "@/lib/pokemonTypes.json";
-import * as typeColors from "../lib/pokemonTypes.json";
+import typeColors from "../lib/pokemonTypes.json";
 // import { promises as fs } from 'fs'; 
 
 interface PokemonInfo {
@@ -56,7 +56,7 @@ function fixPokemonName(name : string) : string {
   return name.split('-').map(capitalizeName).join('-');
 }
 
-function getPokemonType(pokemonName: string): string | undefined {
+function getPokemonType(pokemonName: string): string { // it was this before to see what pokemon names needed to be readjusted: function getPokemonType(pokemonName: string): string | undefined { 
   // Ensure the pokemonName exists in the pokemon dictionary, convert to lowercase first
   const type = typeColors.pokemon[pokemonName.toLowerCase() as keyof typeof typeColors.pokemon];
   return type;
@@ -69,29 +69,20 @@ export function PokemonCard( {name, url } :PokemonInfo) {
     const pokemonID = idParts[idParts.length -2]; 
   
     const pokemonName : string = fixPokemonName(name);
-    // const file = await fs.readFile(process.cwd() + '/app/data.json', 'utf8');
-    // const file = await fs.readFile(process.cwd() + '../lib/pokemonTypes.json', 'utf8');
-    // const typesFile = JSON.parse(file);
 
-    // console.log(pokemonName.toLowerCase());
-
-    // console.log(primaryColor[typeColors.pokemon[pokemonName.toLowerCase()]]);
     const pokemonType = getPokemonType(pokemonName);
-    // console.log(pokemonName, pokemonType, typeof(pokemonType));
 
-    // if (pokemonType === undefined) {
-    //   console.log(pokemonName);
-    // }
+    if (pokemonType === undefined) {
+      console.log(pokemonName);
+    }
 
-    const backgroundColor : string = pokemonType ? primaryColor[pokemonType] : "#000";
-    // console.log(backgroundColor);
-
-    // console.log(primaryColor[typeColors.pokemon[pokemonName.toLowerCase()]])
+    // const backgroundColor : string = pokemonType ? primaryColor[pokemonType] : "#000";
 
     return(
         <Link href={String(pokemonID)}
+          style={{backgroundColor: primaryColor[pokemonType]}}
           // className="group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          className={`bg-${[pokemonType]} group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30`}
+          className={`group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30`}
           key={name + "Card"}
         >
           <h2 className={`text-2xl font-semibold`}> {pokemonName} </h2>

@@ -24,7 +24,9 @@ export function PokemonTable( {pokemonList} : PokemonTableProps) {
 
     return(
         <>
-            <div>
+            {/* Search removed for now as it is refreshing the pokemon Cards each time, which is difficult since its querying the json each time */}
+            {/* Add back once I refactor the query to be higher up the component hierarchy */}
+            {/* <div>
                 <div className="flex flex-col w-full max-w-sm text-left">
                     <label htmlFor="pokemonName">Search for your Pokemon:</label>
                     <input
@@ -36,7 +38,7 @@ export function PokemonTable( {pokemonList} : PokemonTableProps) {
                         onChange={(e) => setSearchText(e.target.value)}
                     />
                 </div>
-            </div>
+            </div> */}
 
             {/* <div> */}
                 {/* <div className="flex flex-col flex-grow-0"> */}
