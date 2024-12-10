@@ -1,6 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 // import pokemon from "@/lib/pokemonTypes.json";
 import typeColors from "../lib/pokemonTypes.json";
+
+
 // import { promises as fs } from 'fs'; 
 
 interface PokemonInfo {
@@ -36,7 +39,7 @@ const primaryColor : {[id: string]: string} = {
     "poison": "#9141cb",    
     "ground": "#915121",    
     "flying": "#81b9ef",    
-    "psychic": "#81b9ef",   
+    "psychic": "#ef4179",   
     "bug": "#91a119",       
     "rock": "#afa981",      
     "ghost": "#704170",     
@@ -76,16 +79,29 @@ export function PokemonCard( {name, url } :PokemonInfo) {
       console.log(pokemonName);
     }
 
+    const imagePath = "../public/fire.svg"; 
+
     // const backgroundColor : string = pokemonType ? primaryColor[pokemonType] : "#000";
 
     return(
         <Link href={String(pokemonID)}
           style={{backgroundColor: primaryColor[pokemonType]}}
           // className="group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          className={`group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30`}
+          className={`relative z-10 group rounded-lg border border-transparent m-3 px-5 py-4 transition-colors dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30`}
           key={name + "Card"}
         >
-          <h2 className={`text-2xl font-semibold`}> {pokemonName} </h2>
+          <h2 className={`relative z-30 text-2xl font-semibold`}> {pokemonName} </h2>
+          
+          <Image
+            src={`/${pokemonType}_icon.png`}
+            alt="Logo for Type"
+            className={"absolute top-0 z-20 -right-10 transform transition duration-200 group-hover:-translate-x-10 group-hover:scale-100 scale-0 mt-1"}
+            // style={{right: -5}}
+            width={52}
+            height={52}
+          >
+            
+          </Image>
         </Link>
     )
 }

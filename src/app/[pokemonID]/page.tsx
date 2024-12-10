@@ -79,7 +79,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
     const pokemonRightName = pokemonRight.species.name;
 
     return(
-        <>
+        <div className='bg-black flex flex-col justify-center items-center text-white'>
             <h2>{pokemon.name}</h2>
             <h2>{evoChain.id}</h2>
             <h2>National Dex Number: {id}</h2>
@@ -102,7 +102,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
             {/*Embedded Link that directs to the prev Pokemon*/}
             <Link
                 href={String(pokemonLeft.id)}
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:bg-white hover:text-black"
                     key={pokemonLeftName} 
                 >
                 <h2 className="mb-3 text-2xl font-semibold">
@@ -114,7 +114,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
             {/*Embedded Link that directs to the next Pokemon*/}
             <Link
                 href={String(pokemonRight.id)}
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:bg-white hover:text-black"
                     key={pokemonRightName} 
                 >
                 <h2 className="mb-3 text-2xl font-semibold">
@@ -244,7 +244,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
 
 
             {/*Gathers the Pokemon's Evolution Chain*/}
-
+{/* 
             <div>
                 <h2>{evoChain.chain.species.name}</h2>
                 {evoChain.chain.evolves_to.map( ( secondStageList : any ) => {
@@ -263,17 +263,12 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                                 <h2 key={thirdStageMon}>{thirdStageMon}</h2>
                                 )
                             })}
-                            {/* {thirdStage.forEach((element : any) => {
-                                return(
-                                    <h2>{element}</h2>
-                                )
-                            })} */}
                             <br></br>
                         </div>
                     )
 
                 })}
-            </div>
+            </div> */}
 
             {/*Gathers the Pokemon's Multiple Pokedex Entries*/}
 
@@ -409,7 +404,7 @@ export default async function PokemonPage( { params } : {params: { pokemonID : S
                     ))}
                 </TableBody>
             </Table>
-        </>
+        </div>
         
     )
 }
