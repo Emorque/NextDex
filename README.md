@@ -11,7 +11,7 @@ A PokéDex App made with NextJS. API calls made from [PokéAPI](https://pokeapi.
 ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
 
 ## Demo
-<img src="/public/NextDex_demo.svg"/>
+<img src="/public/NextDex_demo.gif"/>
 
 ## Getting Started
 1. To run any Next.js application, you will need [Node.js 18.18](https://nodejs.org/en) or later
