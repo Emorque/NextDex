@@ -26,7 +26,10 @@ function capitalizeName(name : string){
 // ex: Iron-Boulder
 
 // List of names whose forms are attached to their name
-const namesToFix : string[] = ["deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", "mimikyu", "toxitricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus"];
+const namesToFix : string[] = ["deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", "mimikyu", "toxtricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus", "oinkologne", "maushold", "squawkabilly", "palafin", "tatsugiri", "dudunsparce"];
+
+// List of names that work fine on my machine, but appear different in prod
+
 
 const primaryColor : {[id: string]: string} = {
     "normal": "#9fa19f",    
